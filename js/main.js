@@ -39,7 +39,7 @@ for (let index = 0; index < materi.length; index++) {
     button.addEventListener("click", function () {
         let conf = confirm("Anda Yakin Ingin MengEdit ?")
         if (conf && conf !== null) {
-            conf = prompt("Masukan Nama Siswa :")
+            conf = prompt("Masukan Jadwal Materi :")
             conf = (conf !== "" && conf !== null) ? conf : alert("Data Tidak Di Simpan.")
             if(conf !== undefined){
                 this.parentElement.childNodes[0].textContent = conf
@@ -85,7 +85,7 @@ todoList.onclick = () => {
     button.addEventListener("click", function () {
         let conf = confirm("Anda Yakin Ingin MengEdit ?")
         if (conf && conf !== null) {
-            conf = prompt("Masukan Nama Siswa :")
+            conf = prompt("Masukan Jadwal Materi :")
             conf = (conf !== "" && conf !== null) ? conf : alert("Data Tidak Di Simpan.")
             if(conf !== undefined){
                 this.parentElement.childNodes[0].textContent = conf
