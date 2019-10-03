@@ -37,7 +37,6 @@ for (let index = 0; index < materi.length; index++) {
     addClassButtonEdit = document.createAttribute("class")
     addClassButtonEdit.value = "btnEdit"
     button.addEventListener("click", function () {
-        console.log(this.parentElement.childNodes[0].textContent)
         let conf = confirm("Anda Yakin Ingin MengEdit ?")
         if (conf && conf !== null) {
             conf = prompt("Masukan Nama Siswa :")
@@ -84,7 +83,6 @@ todoList.onclick = () => {
     addClassButtonEdit = document.createAttribute("class")
     addClassButtonEdit.value = "btnEdit"
     button.addEventListener("click", function () {
-        console.log(this.parentElement.childNodes[0].textContent)
         let conf = confirm("Anda Yakin Ingin MengEdit ?")
         if (conf && conf !== null) {
             conf = prompt("Masukan Nama Siswa :")
