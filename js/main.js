@@ -61,6 +61,7 @@ todoList.onclick = () => {
     elementChildText.appendChild(createTextChild)
     createChild.appendChild(elementChildText)
     createParent.appendChild(createChild)
+    input.value = ""
     //================ create button delete & add text button
     button = document.createElement("button")
     createTextButtonChild = document.createTextNode("Delete")
