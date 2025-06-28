@@ -146,6 +146,7 @@ end
         Main = Window:AddTab({ Title = "Main", Icon = "gamepad-2" }),
         Auto = Window:AddTab({ Title = "Auto", Icon = "repeat" }),
         Dungeon = Window:AddTab({ Title = "Dungeon", Icon = "skull" }),
+        Teleport = Window:AddTab({ Title = "Teleport", Icon = "airplane" }),
         Tools = Window:AddTab({ Title = "Tools", Icon = "wrench" }),
         Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
     }
@@ -768,10 +769,9 @@ end
                         end
                     end)
 
-                    local RankSection = Tabs.Main:AddSection("Auto Rank")
-                    RankSection:AddButton({
-                        Title = "Auto Rank Test",
-                        Callback = function()
+                    local Toggle_AutoRankTest = AutoSection:AddToggle("Toggle_AutoRankTest", { Title = "Auto Farm", Default = false })
+                    Toggle_AutoRankTest:OnChanged(function()
+                        if game.PlaceId ~= 128336380114944 then
                             local args = {
                                 {
                                     {
@@ -783,65 +783,10 @@ end
                             }
                             game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
                         end
-                    })
+                    end)
+
                 -- ======== Auto Farm =======
 
-                -- ======== Teleport =======
-
-                    local locations = {
-                        ["Leveling City"] = Vector3.new(156.59788513183594, 28.27948570251465, -342.618408203125), -- Leveling City
-                        ["Grass Village"] = Vector3.new(-3516.568603515625, 59.03760528564453, 2479.522216796875), -- Grass Village
-                        ["Brum Island"] = Vector3.new(-3006.69140625, 64.56521606445312, -2253.248291015625), -- Brum Island
-                        ["Faceheal Town"] = Vector3.new(2949.715087890625, 50.4575309753418, -2656.518798828125), -- Faceheal Town
-                        ["Mont1"] = Vector3.new(-6170.7802734375, 77.83106994628906, 5438.39013671875),
-                        ["Mont2"] = Vector3.new(466.29296875, 117.56482696533203, 3452.061279296875),
-                        ["Mont3"] = Vector3.new(3302.868896484375, 83.15568542480469, 28.682985305786133),
-                        ["Mont4"] = Vector3.new(4327.86669921875, 118.99542999267578, -4818.9599609375),
-                        ["Mont5"] = Vector3.new(-621.42041015625, 107.75682830810547, -3568.83251953125),
-                        ["Mont6"] = Vector3.new(-5418.4736328125, 107.44157409667969, -5521.29638671875),
-                        ["Mont7"] = Vector3.new(-5881.2021484375, 81.40789031982422, 387.6292724609375)
-                    }
-
-                    local function getDungeonPosition()
-                        local dungeonFolder = workspace:FindFirstChild("__Main") and workspace.__Main:FindFirstChild("__Dungeon")
-                        if dungeonFolder and #dungeonFolder:GetChildren() > 0 then
-                            for _, obj in ipairs(dungeonFolder:GetChildren()) do
-                                if obj:IsA("Model") then
-                                    print("🏰 Found Dungeon (Model):", obj.Name, "| Position:", obj.WorldPivot.Position)
-                                    return obj.WorldPivot.Position
-                                end
-                                if obj:IsA("Part") then
-                                    print("🏰 Found Dungeon (Part):", obj.Name, "| Position:", obj.Position)
-                                    return obj.Position
-                                end
-                            end
-                        end
-
-                        print("⚠️ No Dungeon Found!")
-                        return nil
-                    end
-
-                    local Teleport_Target = "Leveling City"
-                    local Dropdown_tptarget = Tabs.Dungeon:AddDropdown("Dropdown_tptarget", {
-                        Title = "Select Teleport Target",
-                        Values = {"Leveling City", "Grass Village", "Brum Island" , "Faceheal Town" , "Mont1", "Mont2", "Mont3", "Mont4", "Mont5", "Mont6", "Mont7"},
-                        Multi = false,
-                        Default = "Leveling City",
-                    })
-                    Dropdown_tptarget:SetValue("Leveling City")
-                    Dropdown_tptarget:OnChanged(function(Value)
-                        Teleport_Target = Value
-                    end)
-                    Tabs.Dungeon:AddButton({
-                        Title = "Teleport to Target",
-                        Callback = function()
-                            if locations[Teleport_Target] then
-                                tweenFlyTo(locations[Teleport_Target], 500)
-                            else
-                                print("❌ Invalid Teleport Target:", Teleport_Target)
-                            end
-                        end
-                    })
                     local DungeonSelect = {}
                     local DungeonList = {"E", "D", "C", "B", "A", "S", "SS", "N", "G", "M"}
 
@@ -935,7 +880,100 @@ end
                         end
                     end)
 
-                    Tabs.Dungeon:AddButton({
+                    local toggleAutoJoinSummer = Tabs.Dungeon:AddToggle("AutoJoinSummer", { Title = "Auto Join Summer", Default = false })
+                    toggleAutoJoinSummer:OnChanged(function()
+                        if toggleAutoJoinSummer.Value then
+                            while toggleAutoJoinSummer.Value and task.wait() do
+                                if game.PlaceId ~= 128336380114944 then
+                                    local args = {
+                                        {
+                                            {
+                                                Event = "InfiniteModeAction",
+                                                Action = "Create"
+                                            },
+                                            "\f"
+                                        }
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
+                                    task.wait(1)
+                                    local args2= {
+                                        {
+                                            {
+                                                Event = "InfiniteModeAction",
+                                                Action = "Start"
+                                            },
+                                            "\f"
+                                        }
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args2))
+                                    task.wait(5)
+                                end
+                            end
+                            
+                            if DungeonSelect == nil or #DungeonSelect == 0 then
+                                notif("Select Dungeon Rank First", 2)
+                            end
+                        end
+                    end)
+
+
+            -- ====================================  Teleport  ====================================
+
+                    local locations = {
+                        ["Leveling City"] = Vector3.new(156.59788513183594, 28.27948570251465, -342.618408203125), -- Leveling City
+                        ["Grass Village"] = Vector3.new(-3516.568603515625, 59.03760528564453, 2479.522216796875), -- Grass Village
+                        ["Brum Island"] = Vector3.new(-3006.69140625, 64.56521606445312, -2253.248291015625), -- Brum Island
+                        ["Faceheal Town"] = Vector3.new(2949.715087890625, 50.4575309753418, -2656.518798828125), -- Faceheal Town
+                        ["Mont1"] = Vector3.new(-6170.7802734375, 77.83106994628906, 5438.39013671875),
+                        ["Mont2"] = Vector3.new(466.29296875, 117.56482696533203, 3452.061279296875),
+                        ["Mont3"] = Vector3.new(3302.868896484375, 83.15568542480469, 28.682985305786133),
+                        ["Mont4"] = Vector3.new(4327.86669921875, 118.99542999267578, -4818.9599609375),
+                        ["Mont5"] = Vector3.new(-621.42041015625, 107.75682830810547, -3568.83251953125),
+                        ["Mont6"] = Vector3.new(-5418.4736328125, 107.44157409667969, -5521.29638671875),
+                        ["Mont7"] = Vector3.new(-5881.2021484375, 81.40789031982422, 387.6292724609375)
+                    }
+
+                    local function getDungeonPosition()
+                        local dungeonFolder = workspace:FindFirstChild("__Main") and workspace.__Main:FindFirstChild("__Dungeon")
+                        if dungeonFolder and #dungeonFolder:GetChildren() > 0 then
+                            for _, obj in ipairs(dungeonFolder:GetChildren()) do
+                                if obj:IsA("Model") then
+                                    print("🏰 Found Dungeon (Model):", obj.Name, "| Position:", obj.WorldPivot.Position)
+                                    return obj.WorldPivot.Position
+                                end
+                                if obj:IsA("Part") then
+                                    print("🏰 Found Dungeon (Part):", obj.Name, "| Position:", obj.Position)
+                                    return obj.Position
+                                end
+                            end
+                        end
+
+                        print("⚠️ No Dungeon Found!")
+                        return nil
+                    end
+
+                    local Teleport_Target = "Leveling City"
+                    local Dropdown_tptarget = Tabs.Teleport:AddDropdown("Dropdown_tptarget", {
+                        Title = "Select Teleport Target",
+                        Values = {"Leveling City", "Grass Village", "Brum Island" , "Faceheal Town" , "Mont1", "Mont2", "Mont3", "Mont4", "Mont5", "Mont6", "Mont7"},
+                        Multi = false,
+                        Default = "Leveling City",
+                    })
+                    Dropdown_tptarget:SetValue("Leveling City")
+                    Dropdown_tptarget:OnChanged(function(Value)
+                        Teleport_Target = Value
+                    end)
+                    Tabs.Teleport:AddButton({
+                        Title = "Teleport to Target",
+                        Callback = function()
+                            if locations[Teleport_Target] then
+                                tweenFlyTo(locations[Teleport_Target], 500)
+                            else
+                                notif("❌ Invalid Teleport Target: "..Teleport_Target, 3)
+                            end
+                        end
+                    })
+                    Tabs.Teleport:AddButton({
                         Title = "Teleport to Dungeon",
                         Callback = function()
                             if locations[Teleport_Target] then
@@ -953,43 +991,10 @@ end
                             end
                         end
                     })
-                -- ======== Teleport =======
 
-                local toggleAutoJoinSummer = Tabs.Dungeon:AddToggle("AutoJoinSummer", { Title = "Auto Join Summer", Default = false })
-                toggleAutoJoinSummer:OnChanged(function()
-                    if toggleAutoJoinSummer.Value then
-                        while toggleAutoJoinSummer.Value and task.wait() do
-                            if game.PlaceId ~= 128336380114944 then
-                                local args = {
-                                    {
-                                        {
-                                            Event = "InfiniteModeAction",
-                                            Action = "Create"
-                                        },
-                                        "\f"
-                                    }
-                                }
-                                game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
-                                task.wait(1)
-                                local args2= {
-                                    {
-                                        {
-                                            Event = "InfiniteModeAction",
-                                            Action = "Start"
-                                        },
-                                        "\f"
-                                    }
-                                }
-                                game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args2))
-                                task.wait(5)
-                            end
-                        end
-                       
-                        if DungeonSelect == nil or #DungeonSelect == 0 then
-                            notif("Select Dungeon Rank First", 2)
-                        end
-                    end
-                end)
+            -- ====================================  Teleport  ====================================
+
+
             -- ====================================  Tools  ====================================
                 local Tools_Option = Tabs.Tools:AddSection("Option")
                 local ToggleAntiAFK = Tools_Option:AddToggle("AntiAFK", {Title = "AntiAFK", Default = true })
