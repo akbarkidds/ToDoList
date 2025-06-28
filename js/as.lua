@@ -196,9 +196,8 @@ end
                     end
 
                     local function SendMessageToWorld(Message)
-                        local TextChatService = game:GetService("TextChatService")
-                        local Channel = TextChatService:FindFirstChild("RBXGeneral") -- Or any other channel
-                        Channel:SendAsync(Message)
+                        local chatrem = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
+                        chatrem:FireServer(Message, "All")
                     end
 
                     local function toClipboard(String)
