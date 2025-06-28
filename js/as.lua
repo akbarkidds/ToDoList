@@ -146,7 +146,7 @@ end
         Main = Window:AddTab({ Title = "Main", Icon = "gamepad-2" }),
         Auto = Window:AddTab({ Title = "Auto", Icon = "repeat" }),
         Dungeon = Window:AddTab({ Title = "Dungeon", Icon = "skull" }),
-        Teleport = Window:AddTab({ Title = "Teleport", Icon = "airplane" }),
+        Teleport = Window:AddTab({ Title = "Teleport", Icon = "plane" }),
         Tools = Window:AddTab({ Title = "Tools", Icon = "wrench" }),
         Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
     }
