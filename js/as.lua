@@ -146,7 +146,7 @@ end
         Main = Window:AddTab({ Title = "Main", Icon = "gamepad-2" }),
         Auto = Window:AddTab({ Title = "Auto", Icon = "repeat" }),
         Dungeon = Window:AddTab({ Title = "Dungeon", Icon = "skull" }),
-        Teleport = Window:AddTab({ Title = "Teleport", Icon = "plane" }),
+        Teleport = Window:AddTab({ Title = "Teleport", Icon = "airplane" }),
         Tools = Window:AddTab({ Title = "Tools", Icon = "wrench" }),
         Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
     }
@@ -769,20 +769,29 @@ end
                         end
                     end)
 
-                    local Toggle_AutoRankTest = AutoSection:AddToggle("Toggle_AutoRankTest", { Title = "Auto Farm", Default = false })
+                    local Toggle_AutoRankTest = AutoSection:AddToggle("Toggle_AutoRankTest", { Title = "Auto Up Rank", Default = false })
                     Toggle_AutoRankTest:OnChanged(function()
-                        if game.PlaceId ~= 128336380114944 then
-                            local args = {
-                                {
-                                    {
-                                        Event = "DungeonAction",
-                                        Action = "TestEnter"
-                                    },
-                                    "\f"
-                                }
-                            }
-                            game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
+                        local rankUp = false
+                        while Toggle_AutoRankTest.Value and not rankUp do
+                            if Toggle_AutoRankTest.Value then
+                                if game.PlaceId ~= 128336380114944 then
+                                    local args = {
+                                        {
+                                            {
+                                                Event = "DungeonAction",
+                                                Action = "TestEnter"
+                                            },
+                                            "\f"
+                                        }
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
+                                    task.wait(2)
+                                    rankUp = true
+                                end
+                            end
+                            
                         end
+
                     end)
 
                 -- ======== Auto Farm =======
