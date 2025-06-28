@@ -195,6 +195,12 @@ end
                         humanoid:MoveTo(targetPoint)
                     end
 
+                    local function SendMessageToWorld(Message)
+                        local TextChatService = game:GetService("TextChatService")
+                        local Channel = TextChatService:FindFirstChild("RBXGeneral") -- Or any other channel
+                        Channel:SendAsync(Message)
+                    end
+
                     local function toClipboard(String)
                         local clipBoard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
                         if clipBoard then
@@ -954,6 +960,59 @@ end
                 local ToggleAntiAFK = Tools_Option:AddToggle("AntiAFK", {Title = "AntiAFK", Default = true })
                 ToggleAntiAFK:OnChanged(function(Value)
                     VariableIndex.AntiAFKs = Value
+                end)
+
+                local dgSendInfo
+                local isRed
+                local Toggle_SendInfo = Main:AddToggle("Toggle_SendInfo", {Title = "Auto Send Chat Info Dungeon", Default = false})
+                Toggle_SendInfo:OnChanged(function()
+                    if Toggle_SendInfo.Value then
+                        while Toggle_SendInfo.Value and task.wait(1) do
+                            local dgrank = "Wait..."
+                            local defaultDungeon = workspace:FindFirstChild("__Main"):FindFirstChild("__Dungeon")
+                            if defaultDungeon:FindFirstChild("Dungeon") then
+                                local dg = defaultDungeon:FindFirstChild("Dungeon"):GetAttribute("DungeonRank")
+                                if dgSendInfo ~= dg then
+                                    if defaultDungeon:FindFirstChild("Dungeon"):GetAttribute("isRedDungeon") then
+                                        isRed = "Yes"
+                                    else
+                                        isRed = "No"
+                                    end
+                                    if dg == 1 then
+                                        dgrank = "E"
+                                    end
+                                    if dg == 2 then
+                                        dgrank = "D"
+                                    end
+                                    if dg == 3 then
+                                        dgrank = "C"
+                                    end
+                                    if dg == 4 then
+                                        dgrank = "B"
+                                    end
+                                    if dg == 5 then
+                                        dgrank = "A"
+                                    end
+                                    if dg == 6 then
+                                        dgrank = "S"
+                                    end
+                                    if dg == 7 then
+                                        dgrank = "SS"
+                                    end
+                                    if dg == 8 then
+                                        dgrank = "G"
+                                    end
+                                    if dg == 9 then
+                                        dgrank = "N"
+                                    end
+                                    if dg == 10 then 
+                                        dgrank = "M"
+                                    end
+                                    SendMessageToWorld("Rank : "..dgrank .." | Red Gate : ".. isRed)
+                                end
+                            end
+                        end
+                    end
                 end)
 
                 local ToggleWhiteScreen = Tools_Option:AddToggle("WhiteScreen", {Title = "White Screen", Default = false })
