@@ -87,7 +87,7 @@ function icons ()
         -- ตั้งขนาดเริ่มต้นของปุ่ม
         local originalSize = UDim2.new(0, 45, 0, 45)
         minimizeButton.Size = originalSize + UDim2.new(0, originalSize.X.Offset * 0.15, 0, originalSize.Y.Offset * 0.15)
-        minimizeButton.Image = "rbxassetid://5004745643"
+        minimizeButton.Image = "rbxassetid://302960849"
 
         -- เพิ่มมุมโค้งให้กับปุ่ม
         buttonCorner.CornerRadius = UDim.new(0.2, 0)
