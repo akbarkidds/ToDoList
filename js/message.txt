@@ -256,9 +256,9 @@ end
                     --// TWEEN PLAYER
                     local function Tween(P1, Speed)
                         local Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                        TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(5, 5, 0)}):Play()
+                        TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(5, 0, 0)}):Play()
                         if _G.StopTween then
-                            TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(5, 5, 0)}):Cancel()
+                            TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(5, 0, 0)}):Cancel()
                         end
                     end
 
@@ -715,7 +715,7 @@ end
                     ToggleTweenToMonster:OnChanged(function(Value)
                         VariableIndex.TweenToMonster = Value
                         if VariableIndex.TweenToMonster then
-                            while VariableIndex.TweenToMonster and task.wait() do
+                            while VariableIndex.TweenToMonster and task.wait(0.5) do
                                 local player = game.Players.LocalPlayer
                                 local char = player.Character or player.CharacterAdded:Wait()
                                 local humanoidRootPart = char:WaitForChild("HumanoidRootPart")
@@ -756,7 +756,7 @@ end
                                                 break
                                             end
                                         end
-                                        task.wait()
+                                        task.wait(0.3)
                                     end
                                 end
                             end
