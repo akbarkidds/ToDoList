@@ -27,7 +27,6 @@ local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local plr = game.Players.LocalPlayer
 local char = plr.Character or plr.CharacterAdded:Wait()
 local distanceEnemys = 1100
-local attackWithQuest = false
 local loadIcon = false
 local mapName = {
     ["Leveling City"] = "SoloWorld",
@@ -147,7 +146,7 @@ end
         Main = Window:AddTab({ Title = "Main", Icon = "gamepad-2" }),
         Auto = Window:AddTab({ Title = "Auto", Icon = "repeat" }),
         Dungeon = Window:AddTab({ Title = "Dungeon", Icon = "skull" }),
-        Teleport = Window:AddTab({ Title = "Teleport", Icon = "airplane" }),
+        Teleport = Window:AddTab({ Title = "Teleport", Icon = "plane" }),
         Tools = Window:AddTab({ Title = "Tools", Icon = "wrench" }),
         Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
     }
@@ -161,7 +160,6 @@ end
             local enemytargetReal
             local VariableIndex = {
                 AutoFarm = false,
-                AutoFarmWithQuest = false,
                 TweenToMonster = false,
                 AutoArise = false,
                 AutoJoinDungeon = false,
@@ -264,9 +262,9 @@ end
                     --// TWEEN PLAYER
                     local function Tween(P1, Speed)
                         local Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                        TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(-5, 0, 0)}):Play()
+                        TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(-5, 1, 0)}):Play()
                         if _G.StopTween then
-                            TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(-5, 0, 0)}):Cancel()
+                            TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(-5, 1, 0)}):Cancel()
                         end
                     end
 
@@ -336,7 +334,7 @@ end
                 -- ===== ฟังก์ชันสำหรับส่ง Embed ไปยัง Discord Webhook =====
                 local Main = Tabs.Main:AddSection("Main")
                 -- ======== Auto Arise =========
-                    local Toggle_quest = Main:AddToggle("autoQuest", {Title = "Auto Claim Quest", Default = false})
+                    local Toggle_quest = Main:AddToggle("autoQuest", {Title = "Auto Quest", Default = false})
                     Toggle_quest:OnChanged(function()
                         if Toggle_quest.Value then
                             while Toggle_quest.Value and task.wait(0.5) do
@@ -559,39 +557,15 @@ end
                                     if monsterRoot then
                                         local distance = (humanoidRootPart.Position - monsterRoot.Position).Magnitude
                                         if distance < closestDistance then
-                                            if VariableIndex.AutoFarmWithQuest and game.PlaceId ~= 128336380114944 then
-                                                if LocalPlayer.PlayerGui.Hud.Hud:FindFirstChild("QuestFrame"):FindFirstChild("QuestName") then
-                                                    local questNameee = LocalPlayer.PlayerGui.Hud.Hud:FindFirstChild("QuestFrame"):FindFirstChild("QuestName").Text or ""
-                                                    if questNameee ~= "" then
-                                                        questNameee = questNameee:split(" ") or ""
-                                                        if questNameee ~= "" then
-                                                            if questNameee[1] == "Defeat" then
-                                                                if questNameee[2] == monsterName then
-                                                                    closestDistance = distance
-                                                                    closestMonster = monster
-                                                                    closestMonsterData = {
-                                                                        Name = monsterName,
-                                                                        ID = monsterID,
-                                                                        HP = monsterHP,
-                                                                        Position = monsterRoot.Position,
-                                                                        Monster = monster
-                                                                    }
-                                                                end
-                                                            end
-                                                        end
-                                                    end
-                                                end
-                                            else
-                                                closestDistance = distance
-                                                closestMonster = monster
-                                                closestMonsterData = {
-                                                    Name = monsterName,
-                                                    ID = monsterID,
-                                                    HP = monsterHP,
-                                                    Position = monsterRoot.Position,
-                                                    Monster = monster
-                                                }
-                                            end
+                                            closestDistance = distance
+                                            closestMonster = monster
+                                            closestMonsterData = {
+                                                Name = monsterName,
+                                                ID = monsterID,
+                                                HP = monsterHP,
+                                                Position = monsterRoot.Position,
+                                                Monster = monster
+                                            }
                                         end
                                     end
                                 end
@@ -644,18 +618,18 @@ end
                             local enemiesFolder = workspace:FindFirstChild("__Main") and workspace.__Main:FindFirstChild("__Enemies") and workspace.__Main.__Enemies:FindFirstChild("Client")
                             local closestMonster = getClosestMonster()
                             local equippedPets = getEquippedPets()
-                            attackWithQuest = ""
+                            
                             if closestMonster and closestMonster.ID then
                                 local player = game.Players.LocalPlayer
                                 local character = player.Character
                                 local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
-                                 
+
                                 if not humanoidRootPart then
                                     continue
                                 end
 
                                 local distanceToMonster = (humanoidRootPart.Position - closestMonster.Position).Magnitude
-                                attackWithQuest = ""
+
                                 if distanceToMonster >= distanceEnemys then
                                     isAttacking = false
                                 end
@@ -676,9 +650,8 @@ end
                                     for petID, _ in pairs(equippedPets) do
                                         petPositions[petID] = basePos + Vector3.new(math.random(-offset, offset), 0, math.random(-offset, offset))
                                     end
-                                    
-                                        attackMonster(closestMonster.ID, petPositions)
-                                    
+
+                                    attackMonster(closestMonster.ID, petPositions)
                                 else
                                     isAttacking = false
                                 end
@@ -693,16 +666,6 @@ end
                     Toggle_AutoFarm:OnChanged(function()
                         VariableIndex.AutoFarm = Toggle_AutoFarm.Value
                         if not VariableIndex.AutoFarm then
-                            isAttacking = false
-                        end
-                    end)
-
-                    local Toggle_AutoFarmWithQuest = AutoSection:AddToggle("Toggle_AutoFarmWithQuest", { Title = "Auto Farm With Quest", Default = false })
-                    Toggle_AutoFarmWithQuest:OnChanged(function()
-                        if Toggle_AutoFarmWithQuest.Value then
-                            isAttacking = false
-                            VariableIndex.AutoFarmWithQuest = Toggle_AutoFarmWithQuest.Value
-                        else
                             isAttacking = false
                         end
                     end)
@@ -753,16 +716,15 @@ end
                                 end
                         end
                     end)
-
                     local RoomDungeons = ""
                     local RoomDungeons2 = "Room_0"
                     local TweenToRoom = false
-                    local ToggleTweenToMonster = AutoSection:AddToggle("ToggleTweenToMonster", { Title = "Tween To Monster", Default = false })
+                    local ToggleTweenToMonster = AutoSection:AddToggle("ToggleTweenToMonster", { Title = "Tween Monster", Default = false })
                     ToggleTweenToMonster:OnChanged(function(Value)
                         VariableIndex.TweenToMonster = Value
                         if VariableIndex.TweenToMonster then
                             while VariableIndex.TweenToMonster and task.wait() do
-                                if game.PlaceId == 128336380114944 then
+                                if game.PlaceId == 128336380114944 and RoomDungeons ~= RoomDungeons2 then
                                     local wprldDungeon = workspace.__Main.__World:GetChildren()
                                     local hudRoom = game:GetService("Players").LocalPlayer.PlayerGui.Hud.UpContanier
                                     if hudRoom:FindFirstChild("Room") then
@@ -788,42 +750,39 @@ end
                                     local char = player.Character or player.CharacterAdded:Wait()
                                     local humanoidRootPart = char:WaitForChild("HumanoidRootPart")
                                     local playerPosition = humanoidRootPart.Position
-                                    local closestEnemy = getClosestMonster()
-                                    if closestEnemy then
-                                        player:RequestStreamAroundAsync(closestEnemy.Position)
-                                        closestEnemy.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
-                                        local distancex = (closestEnemy.Position - playerPosition).Magnitude
-                                        while closestEnemy.Monster:FindFirstChild("HealthBar") do
-                                            if isAttacking == false then
-                                                Tween(closestEnemy.Monster:FindFirstChild("HumanoidRootPart"), 500)
+                                    
+                                    local closestEnemy = nil
+                                    local closestDistance = math.huge
+                                    
+                                    -- Find the closest valid enemy (any enemy with health > 0)
+                                    for _, enemy in ipairs(workspace.__Main.__Enemies.Client:GetChildren()) do
+                                        if enemy:IsA("Model") and enemy:FindFirstChild("HumanoidRootPart") and isValidEnemy(enemy) then
+                                            local distance = (enemy.HumanoidRootPart.Position - playerPosition).Magnitude
+                                            if distance < closestDistance then
+                                                closestDistance = distance
+                                                closestEnemy = enemy
                                             end
-                                            local infoHp = tonumber(closestEnemy.HP[1]:match("[%d%.]+")) or 0
-                                            if not closestEnemy.HP or infoHp <= 0 then 
-                                                isAttacking = false
-                                                break
-                                            end
-                                            task.wait()
                                         end
                                     end
-                                elseif game.PlaceId ~= 128336380114944 then
-                                    local player = game.Players.LocalPlayer
-                                    local char = player.Character or player.CharacterAdded:Wait()
-                                    local humanoidRootPart = char:WaitForChild("HumanoidRootPart")
-                                    local playerPosition = humanoidRootPart.Position
-                                    local closestEnemy = getClosestMonster()
-
+                                    
                                     if closestEnemy then
-                                        player:RequestStreamAroundAsync(closestEnemy.Position)
+                                        -- Teleport to the enemy
+                                        player:RequestStreamAroundAsync(closestEnemy.HumanoidRootPart.Position)
                                         closestEnemy.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
-                                        local distancex = (closestEnemy.Position - playerPosition).Magnitude
-                                        while closestEnemy.Monster:FindFirstChild("HealthBar") do
+                                        local distancex = (closestEnemy.HumanoidRootPart.Position - playerPosition).Magnitude
+                                        while closestEnemy:FindFirstChild("HealthBar") do
                                             if isAttacking == false then
-                                                Tween(closestEnemy.Monster:FindFirstChild("HumanoidRootPart"), 500)
+                                                Tween(closestEnemy.HumanoidRootPart, 500)
                                             end
-                                            local infoHp = tonumber(closestEnemy.HP:match("[%d%.]+")) or 0
-                                            if not closestEnemy.HP or infoHp <= 0 or distancex <= 2 then 
-                                                isAttacking = false
-                                                break
+                                            local healthBar = closestEnemy.HealthBar:FindFirstChild("Main")
+                                            local amount = healthBar and healthBar:FindFirstChild("Bar") and healthBar.Bar:FindFirstChild("Amount")
+                                            
+                                            if amount and amount:IsA("TextLabel") then
+                                                local health = tonumber(string.match(amount.Text, "(%d+)"))
+                                                if not health or health <= 0 then 
+                                                    isAttacking = false
+                                                    break
+                                                end
                                             end
                                             task.wait()
                                         end
@@ -919,7 +878,7 @@ end
                                 if DungeonSelect ~= nil then
                                     local defaultDungeon = workspace:FindFirstChild("__Main"):FindFirstChild("__Dungeon")
                                     if defaultDungeon:FindFirstChild("Dungeon") then
-                                        print(table.find(DungeonSelect, defaultDungeon:FindFirstChild("Dungeon"):GetAttribute("DungeonRank")))
+                                        --print(table.find(DungeonSelect, defaultDungeon:FindFirstChild("Dungeon"):GetAttribute("DungeonRank")))
                                         if table.find(DungeonSelect, defaultDungeon:FindFirstChild("Dungeon"):GetAttribute("DungeonRank")) ~= nil then
                                             local args = {
                                                 {
