@@ -66,45 +66,39 @@ if game.PlaceId == 87039211657390 or game.PlaceId == 128336380114944 or game.Pla
         Theme = "Darker",
         MinimizeKey = Enum.KeyCode.LeftControl
     })
+
 function icons ()
     -- ===================== icon ===================== --
         local screenGui = Instance.new("ScreenGui")
         local minimizeButton = Instance.new("ImageButton")
         local buttonCorner = Instance.new("UICorner")
 
-        -- à¸•à¸±à¹‰à¸‡à¸Šà¸·à¹ˆà¸­à¹à¸¥à¸°à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²à¸‚à¸­à¸‡ ScreenGui
         screenGui.Name = "MobileMinimize"
         screenGui.Parent = game:GetService("CoreGui")
         screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-        -- à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²à¸‚à¸­à¸‡ ImageButton (Minimize Button)
         minimizeButton.Parent = screenGui
         minimizeButton.BackgroundColor3 = Color3.new(1.000000, 1.000000, 1.000000)
         minimizeButton.BorderColor3 = Color3.new(1.000000, 1.000000, 1.000000)
         minimizeButton.BorderSizePixel = 0
         minimizeButton.Position = UDim2.new(0,584,0,14)
 
-        -- à¸•à¸±à¹‰à¸‡à¸‚à¸™à¸²à¸”à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™à¸‚à¸­à¸‡à¸›à¸¸à¹ˆà¸¡
         local originalSize = UDim2.new(0, 45, 0, 45)
         minimizeButton.Size = originalSize + UDim2.new(0, originalSize.X.Offset * 0.15, 0, originalSize.Y.Offset * 0.15)
-        minimizeButton.Image = "rbxassetid://131642672159441"
+        minimizeButton.Image = "rbxassetid://302960849"
 
-        -- à¹€à¸žà¸´à¹ˆà¸¡à¸¡à¸¸à¸¡à¹‚à¸„à¹‰à¸‡à¹ƒà¸«à¹‰à¸à¸±à¸šà¸›à¸¸à¹ˆà¸¡
         buttonCorner.CornerRadius = UDim.new(0.2, 0)
         buttonCorner.Parent = minimizeButton
 
-        -- à¸•à¸±à¸§à¹à¸›à¸£à¸ªà¸³à¸«à¸£à¸±à¸šà¸à¸²à¸£à¸¥à¸²à¸
         local dragging = false
         local dragInput, touchPos, buttonPos
 
-        -- à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¸à¸²à¸£à¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™à¸à¸²à¸£à¸¥à¸²à¸
         minimizeButton.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = true
                 touchPos = input.Position
                 buttonPos = minimizeButton.Position
 
-                -- à¹€à¸¡à¸·à¹ˆà¸­à¸à¸²à¸£à¸¥à¸²à¸à¸ªà¸´à¹‰à¸™à¸ªà¸¸à¸”
                 input.Changed:Connect(function()
                     if input.UserInputState == Enum.UserInputState.End then
                         dragging = false
@@ -113,14 +107,12 @@ function icons ()
             end
         end)
 
-        -- à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¸•à¸£à¸§à¸ˆà¸ˆà¸±à¸šà¸à¸²à¸£à¹€à¸„à¸¥à¸·à¹ˆà¸­à¸™à¹„à¸«à¸§à¸‚à¸­à¸‡à¹€à¸¡à¸²à¸ªà¹Œ/à¸ªà¸±à¸¡à¸œà¸±à¸ª
         minimizeButton.InputChanged:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
                 dragInput = input
             end
         end)
 
-        -- à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¸à¸²à¸£à¸¥à¸²à¸à¸›à¸¸à¹ˆà¸¡
         game:GetService("UserInputService").InputChanged:Connect(function(input)
             if input == dragInput and dragging then
                 local delta = input.Position - touchPos
@@ -133,7 +125,6 @@ function icons ()
             end
         end)
 
-        -- à¹€à¸¡à¸·à¹ˆà¸­à¸„à¸¥à¸´à¸à¸›à¸¸à¹ˆà¸¡à¸ˆà¸°à¹ƒà¸«à¹‰à¸«à¸™à¹‰à¸²à¸•à¹ˆà¸²à¸‡à¸¢à¹ˆà¸­
         minimizeButton.MouseButton1Click:Connect(function()
             Window:Minimize()
         end)
@@ -146,6 +137,7 @@ end
         Main = Window:AddTab({ Title = "Main", Icon = "gamepad-2" }),
         Auto = Window:AddTab({ Title = "Auto", Icon = "repeat" }),
         Dungeon = Window:AddTab({ Title = "Dungeon", Icon = "skull" }),
+        Teleport = Window:AddTab({ Title = "Teleport", Icon = "plane" }),
         Tools = Window:AddTab({ Title = "Tools", Icon = "wrench" }),
         Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
     }
@@ -168,8 +160,6 @@ end
             
             -- ==================================== Start Function Group ============================
                 -- ===================================== Function =====================================
-
-                -- ============================= à¸¥à¸³à¸”à¸±à¸šà¸‡à¸²à¸™ =============================
 
                     local function notif(message, duration)
                         Fluent:Notify({
@@ -211,7 +201,6 @@ end
                     end
                 -- ============================= à¸¥à¸³à¸”à¸±à¸šà¸‡à¸²à¸™ =============================
 
-                -- à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¹ƒà¸™à¸à¸²à¸£à¹€à¸žà¸´à¹ˆà¸¡à¹€à¸„à¸£à¸·à¹ˆà¸­à¸‡à¸«à¸¡à¸²à¸¢à¸„à¸±à¹ˆà¸™à¸žà¸±à¸™
                     local function formatnum(num)
                         return string.gsub(num, "(%d)(%d%d%d)$", "%1,%2")  -- à¸•à¸±à¸§à¸­à¸¢à¹ˆà¸²à¸‡à¸à¸²à¸£à¹ƒà¸Šà¹‰à¹€à¸žà¸·à¹ˆà¸­à¹ƒà¸ªà¹ˆà¸„à¸±à¹ˆà¸™à¸žà¸±à¸™
                     end
@@ -221,7 +210,6 @@ end
                        return s:match( "^%s*(.-)%s*$" )
                     end
 
-                    -- ðŸ”¥ à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¸—à¸³à¹ƒà¸«à¹‰à¸•à¸±à¸§à¸¥à¸°à¸„à¸£ Tween à¹„à¸›à¸¢à¸±à¸‡à¹€à¸›à¹‰à¸²à¸«à¸¡à¸²à¸¢
                     local function tweenFlyTo(targetPosition, speed, onComplete)
                         if not humanoidRootPart then
                             warn("âš ï¸ HumanoidRootPart not found!")
@@ -256,9 +244,9 @@ end
                     --// TWEEN PLAYER
                     local function Tween(P1, Speed)
                         local Distance = (P1.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                        TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(5, 0, 0)}):Play()
+                        TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(5, 5, 0)}):Play()
                         if _G.StopTween then
-                            TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(5, 0, 0)}):Cancel()
+                            TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = CFrame.new(P1.Position) * CFrame.new(5, 5, 0)}):Cancel()
                         end
                     end
 
@@ -272,6 +260,25 @@ end
                         
                         local hp = tonumber(string.match(amount.Text, "(%d+)"))
                         return hp and hp > 0
+                    end
+
+                    local function getDungeonPosition()
+                        local dungeonFolder = workspace:FindFirstChild("__Main") and workspace.__Main:FindFirstChild("__Dungeon")
+                        if dungeonFolder and #dungeonFolder:GetChildren() > 0 then
+                            for _, obj in ipairs(dungeonFolder:GetChildren()) do
+                                if obj:IsA("Model") then
+                                    print("ðŸ° Found Dungeon (Model):", obj.Name, "| Position:", obj.WorldPivot.Position)
+                                    return obj.WorldPivot.Position
+                                end
+                                if obj:IsA("Part") then
+                                    print("ðŸ° Found Dungeon (Part):", obj.Name, "| Position:", obj.Position)
+                                    return obj.Position
+                                end
+                            end
+                        end
+
+                        print("âš ï¸ No Dungeon Found!")
+                        return nil
                     end
 
                     local function Autoquest()
@@ -325,8 +332,8 @@ end
                             end
                          end
                     end
-                -- ===== à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¸ªà¸³à¸«à¸£à¸±à¸šà¸ªà¹ˆà¸‡ Embed à¹„à¸›à¸¢à¸±à¸‡ Discord Webhook =====
-                local Main = Tabs.Main:AddSection("Main")
+
+                    local Main = Tabs.Main:AddSection("Main")
                 -- ======== Auto Arise =========
                     local Toggle_quest = Main:AddToggle("autoQuest", {Title = "Auto Quest", Default = false})
                     Toggle_quest:OnChanged(function()
@@ -364,7 +371,6 @@ end
                         end
                     end)
                     local Toggle_AutoArise = Main:AddToggle("autoarise", {Title = "Auto Arise", Default = false})
-
                     Toggle_AutoArise:OnChanged(function()
                         if Toggle_AutoArise.Value then
                             -- Run in a separate task to prevent blocking
@@ -428,7 +434,6 @@ end
                     
                     -- Auto Destroy
                     local toggle_autodestroy = Main:AddToggle("autodestroy", {Title = "Auto Destroy", Default = false})
-                    
                     toggle_autodestroy:OnChanged(function()
                         if toggle_autodestroy.Value then
                             -- Run in a separate task to prevent blocking
@@ -482,7 +487,6 @@ end
                 -- ======== Auto Arise =========
 
                 -- ======== Auto Farm =======
-                    -- à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¸”à¸¶à¸‡à¸£à¸²à¸¢à¸à¸²à¸£ Pets à¸—à¸µà¹ˆà¸•à¸´à¸”à¸•à¸±à¹‰à¸‡à¸­à¸¢à¸¹à¹ˆ
                     local function getEquippedPets()
                         local player = game:GetService("Players").LocalPlayer
                         local petsContainer = player:FindFirstChild("PlayerGui") and player.PlayerGui:FindFirstChild("__Disable") 
@@ -567,7 +571,7 @@ end
                         end
                         return closestMonsterData
                     end
-                    -- à¸Ÿà¸±à¸‡à¸à¹Œà¸Šà¸±à¸™à¹ƒà¸«à¹‰ Pets à¹‚à¸ˆà¸¡à¸•à¸µ Monster
+
                     local function attackMonster(closestMonsterID, petPositions)
                         if not closestMonsterID or not petPositions then
                             return
@@ -588,7 +592,7 @@ end
 
                     
                     spawn(function()
-                        while true and task.wait(0.5) do
+                        while true and task.wait(0.1) do
                             local proximiStuck = game:GetService("Players").LocalPlayer.PlayerGui
                             if proximiStuck:FindFirstChild("ProximityPrompts") then
                                 proximiStuck = proximiStuck.ProximityPrompts:GetChildren()
@@ -715,7 +719,7 @@ end
                     ToggleTweenToMonster:OnChanged(function(Value)
                         VariableIndex.TweenToMonster = Value
                         if VariableIndex.TweenToMonster then
-                            while VariableIndex.TweenToMonster and task.wait(0.5) do
+                            while VariableIndex.TweenToMonster and task.wait() do
                                 local player = game.Players.LocalPlayer
                                 local char = player.Character or player.CharacterAdded:Wait()
                                 local humanoidRootPart = char:WaitForChild("HumanoidRootPart")
@@ -756,87 +760,15 @@ end
                                                 break
                                             end
                                         end
-                                        task.wait(0.3)
+                                        task.wait()
                                     end
                                 end
                             end
                         end
                     end)
 
-                    local RankSection = Tabs.Main:AddSection("Auto Rank")
-                    RankSection:AddButton({
-                        Title = "Auto Rank Test",
-                        Callback = function()
-                            local args = {
-                                {
-                                    {
-                                        Event = "DungeonAction",
-                                        Action = "TestEnter"
-                                    },
-                                    "\f"
-                                }
-                            }
-                            game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
-                        end
-                    })
                 -- ======== Auto Farm =======
 
-                -- ======== Teleport =======
-
-                    local locations = {
-                        ["Leveling City"] = Vector3.new(156.59788513183594, 28.27948570251465, -342.618408203125), -- Leveling City
-                        ["Grass Village"] = Vector3.new(-3516.568603515625, 59.03760528564453, 2479.522216796875), -- Grass Village
-                        ["Brum Island"] = Vector3.new(-3006.69140625, 64.56521606445312, -2253.248291015625), -- Brum Island
-                        ["Faceheal Town"] = Vector3.new(2949.715087890625, 50.4575309753418, -2656.518798828125), -- Faceheal Town
-                        ["Mont1"] = Vector3.new(-6170.7802734375, 77.83106994628906, 5438.39013671875),
-                        ["Mont2"] = Vector3.new(466.29296875, 117.56482696533203, 3452.061279296875),
-                        ["Mont3"] = Vector3.new(3302.868896484375, 83.15568542480469, 28.682985305786133),
-                        ["Mont4"] = Vector3.new(4327.86669921875, 118.99542999267578, -4818.9599609375),
-                        ["Mont5"] = Vector3.new(-621.42041015625, 107.75682830810547, -3568.83251953125),
-                        ["Mont6"] = Vector3.new(-5418.4736328125, 107.44157409667969, -5521.29638671875),
-                        ["Mont7"] = Vector3.new(-5881.2021484375, 81.40789031982422, 387.6292724609375)
-                    }
-
-                    local function getDungeonPosition()
-                        local dungeonFolder = workspace:FindFirstChild("__Main") and workspace.__Main:FindFirstChild("__Dungeon")
-                        if dungeonFolder and #dungeonFolder:GetChildren() > 0 then
-                            for _, obj in ipairs(dungeonFolder:GetChildren()) do
-                                if obj:IsA("Model") then
-                                    print("ðŸ° Found Dungeon (Model):", obj.Name, "| Position:", obj.WorldPivot.Position)
-                                    return obj.WorldPivot.Position
-                                end
-                                if obj:IsA("Part") then
-                                    print("ðŸ° Found Dungeon (Part):", obj.Name, "| Position:", obj.Position)
-                                    return obj.Position
-                                end
-                            end
-                        end
-
-                        print("âš ï¸ No Dungeon Found!")
-                        return nil
-                    end
-
-                    local Teleport_Target = "Leveling City"
-                    local Dropdown_tptarget = Tabs.Dungeon:AddDropdown("Dropdown_tptarget", {
-                        Title = "Select Teleport Target",
-                        Values = {"Leveling City", "Grass Village", "Brum Island" , "Faceheal Town" , "Mont1", "Mont2", "Mont3", "Mont4", "Mont5", "Mont6", "Mont7"},
-                        Multi = false,
-                        Default = "Leveling City",
-                    })
-                    Dropdown_tptarget:SetValue("Leveling City")
-                    Dropdown_tptarget:OnChanged(function(Value)
-                        Teleport_Target = Value
-                    end)
-                    Tabs.Dungeon:AddButton({
-                        Title = "Teleport to Target",
-                        Callback = function()
-                            if locations[Teleport_Target] then
-                                tweenFlyTo(locations[Teleport_Target], 500)
-                            else
-                                print("âŒ Invalid Teleport Target:", Teleport_Target)
-                            end
-                        end
-                    })
                     local DungeonSelect = {}
                     local DungeonList = {"E", "D", "C", "B", "A", "S", "SS", "N", "G", "M"}
 
@@ -930,11 +862,69 @@ end
                         end
                     end)
 
+                    local toggleAutoJoinSummer = Tabs.Dungeon:AddToggle("AutoJoinSummer", { Title = "Auto Join Summer", Default = false })
+                    toggleAutoJoinSummer:OnChanged(function()
+                        if toggleAutoJoinSummer.Value then
+                            while toggleAutoJoinSummer.Value and task.wait() do
+                                if game.PlaceId ~= 128336380114944 then
+                                    local args = {
+                                        {
+                                            {
+                                                Event = "InfiniteModeAction",
+                                                Action = "Create"
+                                            },
+                                            "\f"
+                                        }
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
+                                    task.wait(1)
+                                    local args2= {
+                                        {
+                                            {
+                                                Event = "InfiniteModeAction",
+                                                Action = "Start"
+                                            },
+                                            "\f"
+                                        }
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args2))
+                                    task.wait(5)
+                                end
+                            end
+                            
+                            if DungeonSelect == nil or #DungeonSelect == 0 then
+                                notif("Select Dungeon Rank First", 2)
+                            end
+                        end
+                    end)
+
+                    local Toggle_AutoRankTest = Tabs.Dungeon:AddToggle("Toggle_AutoRankTest", { Title = "Auto Up Rank", Default = false })
+                    Toggle_AutoRankTest:OnChanged(function()
+                        local rankUp = false
+                        while Toggle_AutoRankTest.Value and not rankUp do
+                            if Toggle_AutoRankTest.Value and not rankUp then
+                                if game.PlaceId ~= 128336380114944 then
+                                    local args = {
+                                        {
+                                            {
+                                                Event = "DungeonAction",
+                                                Action = "TestEnter"
+                                            },
+                                            "\f"
+                                        }
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
+                                    task.wait(2)
+                                    rankUp = true
+                                end
+                            end
+                        end
+                    end)
+
                     Tabs.Dungeon:AddButton({
                         Title = "Teleport to Dungeon",
                         Callback = function()
                             if locations[Teleport_Target] then
-                                -- à¹„à¸›à¸—à¸µà¹ˆà¹€à¸›à¹‰à¸²à¸«à¸¡à¸²à¸¢à¸à¹ˆà¸­à¸™ à¹à¸¥à¹‰à¸§à¹„à¸› Dungeon à¸•à¹ˆà¸­
                                 tweenFlyTo(locations[Teleport_Target], 500, function()
                                     local dungeonPosition = getDungeonPosition()
                                     if dungeonPosition then
@@ -948,7 +938,46 @@ end
                             end
                         end
                     })
+
+                        -- ======== Teleport =======
+
+                        local locations = {
+                            ["Leveling City"] = Vector3.new(156.59788513183594, 28.27948570251465, -342.618408203125), -- Leveling City
+                            ["Grass Village"] = Vector3.new(-3516.568603515625, 59.03760528564453, 2479.522216796875), -- Grass Village
+                            ["Brum Island"] = Vector3.new(-3006.69140625, 64.56521606445312, -2253.248291015625), -- Brum Island
+                            ["Faceheal Town"] = Vector3.new(2949.715087890625, 50.4575309753418, -2656.518798828125), -- Faceheal Town
+                            ["Mont1"] = Vector3.new(-6170.7802734375, 77.83106994628906, 5438.39013671875),
+                            ["Mont2"] = Vector3.new(466.29296875, 117.56482696533203, 3452.061279296875),
+                            ["Mont3"] = Vector3.new(3302.868896484375, 83.15568542480469, 28.682985305786133),
+                            ["Mont4"] = Vector3.new(4327.86669921875, 118.99542999267578, -4818.9599609375),
+                            ["Mont5"] = Vector3.new(-621.42041015625, 107.75682830810547, -3568.83251953125),
+                            ["Mont6"] = Vector3.new(-5418.4736328125, 107.44157409667969, -5521.29638671875),
+                            ["Mont7"] = Vector3.new(-5881.2021484375, 81.40789031982422, 387.6292724609375)
+                        }
+    
+                        local Teleport_Target = "Leveling City"
+                        local Dropdown_tptarget = Tabs.Teleport:AddDropdown("Dropdown_tptarget", {
+                            Title = "Select Teleport Target",
+                            Values = {"Leveling City", "Grass Village", "Brum Island" , "Faceheal Town" , "Mont1", "Mont2", "Mont3", "Mont4", "Mont5", "Mont6", "Mont7"},
+                            Multi = false,
+                            Default = "Leveling City",
+                        })
+                        Dropdown_tptarget:SetValue("Leveling City")
+                        Dropdown_tptarget:OnChanged(function(Value)
+                            Teleport_Target = Value
+                        end)
+                        Tabs.Teleport:AddButton({
+                            Title = "Teleport to Target",
+                            Callback = function()
+                                if locations[Teleport_Target] then
+                                    tweenFlyTo(locations[Teleport_Target], 500)
+                                else
+                                    print("âŒ Invalid Teleport Target:", Teleport_Target)
+                                end
+                            end
+                        })
                 -- ======== Teleport =======
+
             -- ====================================  Tools  ====================================
                 local Tools_Option = Tabs.Tools:AddSection("Option")
                 local ToggleAntiAFK = Tools_Option:AddToggle("AntiAFK", {Title = "AntiAFK", Default = true })
