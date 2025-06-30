@@ -44,8 +44,11 @@ local mapName = {
     ["XZ City"] = "OPMWorld",
     ["Kindama City"] = "DanWorld",
     ["Hunters City"] = "Solo2World",
+    ["Hunters World"] = "Solo2World",
     ["Nen City"] = "HxHWorld",
+    ["Nen World"] = "HxHWorld",
     ["Hurricane Town"] = "SlimeWorld",
+    ["Hurricane World"] = "SlimeWorld",
     ["Hurricane Island"] = "SlimeWorld",
 }
 
@@ -718,7 +721,7 @@ end
                     local playerposisi
                     local playerinposition = 0
                     local RoomDungeons = ""
-                    local RoomDungeons2 = "Room_0"
+                    local RoomDungeons2 = 0
                     local ToggleTweenToMonster = AutoSection:AddToggle("ToggleTweenToMonster", { Title = "Tween To Monster", Default = false })
                     ToggleTweenToMonster:OnChanged(function(Value)
                         VariableIndex.TweenToMonster = Value
@@ -731,13 +734,13 @@ end
                                 if game.PlaceId == 128336380114944 and playerposisi == playerPosition then
                                     local hudRoom = game:GetService("Players").LocalPlayer.PlayerGui.Hud.UpContanier
                                     if hudRoom:FindFirstChild("Room") then
-                                        local infoRoom = hudRoom:FindFirstChild("Room").Text:split("/")
+                                        local infoRoom = hudRoom:FindFirstChild("Room").Text:split("/") or {}
                                         if #infoRoom > 1 then
                                             local infoRoomValue = tonumber(infoRoom[1]:match("[%d%.]+")) or 0
                                             if infoRoomValue ~= nil then
                                                 if infoRoomValue > 1 then
-                                                    local RoomDungeon = workspace.__Main.__World:FindFirstChild("Room_"..infoRoomValue):FindFirstChild("Entrace")
-                                                    if RoomDungeon then
+                                                    if workspace.__Main.__World:FindFirstChild("Room_"..infoRoomValue):FindFirstChild("Entrace") then
+                                                        local RoomDungeon = workspace.__Main.__World:FindFirstChild("Room_"..infoRoomValue):FindFirstChild("Entrace")
                                                         playerinposition = playerinposition + 1
                                                         if RoomDungeons ~= RoomDungeon.Parent.Name and playerinposition > 10 then
                                                             RoomDungeons2 = tonumber(infoRoom[2]:match("[%d%.]+")) or 0
@@ -848,7 +851,7 @@ end
                         DungeonSelect = Values
                     end)
                     local stayPlayerInDungeon = 0
-                    local toggleAutoJoinDungeon = Tabs.Dungeon:AddToggle("AutoJoinDungeon", { Title = "Auto Join Dungeon / Rejoin", Default = false })
+                    local toggleAutoJoinDungeon = Tabs.Dungeon:AddToggle("AutoJoinDungeon", { Title = "Auto Join Dungeon / Rejoin / Leave", Default = false })
                     toggleAutoJoinDungeon:OnChanged(function()
                         VariableIndex.AutoJoinDungeon = toggleAutoJoinDungeon.Value
                         if VariableIndex.AutoJoinDungeon then
