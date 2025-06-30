@@ -739,7 +739,7 @@ end
                                                     local RoomDungeon = workspace.__Main.__World:FindFirstChild("Room_"..infoRoomValue):FindFirstChild("Entrace")
                                                     if RoomDungeon then
                                                         playerinposition = playerinposition + 1
-                                                        if RoomDungeons ~= RoomDungeon.Parent.Name and playerinposition > 3 then
+                                                        if RoomDungeons ~= RoomDungeon.Parent.Name and playerinposition > 10 then
                                                             RoomDungeons2 = RoomDungeon.Parent.Name
                                                             RoomDungeons = RoomDungeon.Parent.Name
                                                             player:RequestStreamAroundAsync(RoomDungeon.Position)
