@@ -88,7 +88,7 @@ function icons ()
 
         local originalSize = UDim2.new(0, 45, 0, 45)
         minimizeButton.Size = originalSize + UDim2.new(0, originalSize.X.Offset * 0.15, 0, originalSize.Y.Offset * 0.15)
-        minimizeButton.Image = "rbxassetid://302960849"
+        minimizeButton.Image = "rbxassetid://97909023934615"
 
         buttonCorner.CornerRadius = UDim.new(0.2, 0)
         buttonCorner.Parent = minimizeButton
