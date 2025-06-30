@@ -754,46 +754,46 @@ end
                                             end
                                         end
                                     end
-                                else
-                                    local closestEnemy = nil
-                                    local closestDistance = math.huge
-                                    playerposisi = playerPosition
-                                    -- Find the closest valid enemy (any enemy with health > 0)
-                                    for _, enemy in ipairs(workspace.__Main.__Enemies.Client:GetChildren()) do
-                                        if enemy:IsA("Model") and enemy:FindFirstChild("HumanoidRootPart") and isValidEnemy(enemy) then
-                                            local distance = (enemy.HumanoidRootPart.Position - playerPosition).Magnitude
-                                            if distance < closestDistance then
-                                                closestDistance = distance
-                                                closestEnemy = enemy
-                                            end
-                                        end
-                                    end
-                                    
-                                    if closestEnemy then
-                                        -- Teleport to the enemy
-                                        player:RequestStreamAroundAsync(closestEnemy.HumanoidRootPart.Position)
-                                        closestEnemy.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
-                                        task.wait()
-                                        local distancex = (closestEnemy.HumanoidRootPart.Position - playerPosition).Magnitude
-
-                                        while closestEnemy:FindFirstChild("HealthBar") do
-                                            if isAttacking == false then
-                                                Tween(closestEnemy.HumanoidRootPart, 500)
-                                            end
-                                            local healthBar = closestEnemy.HealthBar:FindFirstChild("Main")
-                                            local amount = healthBar and healthBar:FindFirstChild("Bar") and healthBar.Bar:FindFirstChild("Amount")
-                                            
-                                            if amount and amount:IsA("TextLabel") then
-                                                local health = tonumber(string.match(amount.Text, "(%d+)"))
-                                                if not health or health <= 0 then 
-                                                    isAttacking = false
-                                                    break
-                                                end
-                                            end
-                                            task.wait()
+                                end
+                                local closestEnemy = nil
+                                local closestDistance = math.huge
+                                playerposisi = playerPosition
+                                -- Find the closest valid enemy (any enemy with health > 0)
+                                for _, enemy in ipairs(workspace.__Main.__Enemies.Client:GetChildren()) do
+                                    if enemy:IsA("Model") and enemy:FindFirstChild("HumanoidRootPart") and isValidEnemy(enemy) then
+                                        local distance = (enemy.HumanoidRootPart.Position - playerPosition).Magnitude
+                                        if distance < closestDistance then
+                                            closestDistance = distance
+                                            closestEnemy = enemy
                                         end
                                     end
                                 end
+                                
+                                if closestEnemy then
+                                    -- Teleport to the enemy
+                                    player:RequestStreamAroundAsync(closestEnemy.HumanoidRootPart.Position)
+                                    closestEnemy.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+                                    task.wait()
+                                    local distancex = (closestEnemy.HumanoidRootPart.Position - playerPosition).Magnitude
+
+                                    while closestEnemy:FindFirstChild("HealthBar") do
+                                        if isAttacking == false then
+                                            Tween(closestEnemy.HumanoidRootPart, 500)
+                                        end
+                                        local healthBar = closestEnemy.HealthBar:FindFirstChild("Main")
+                                        local amount = healthBar and healthBar:FindFirstChild("Bar") and healthBar.Bar:FindFirstChild("Amount")
+                                        
+                                        if amount and amount:IsA("TextLabel") then
+                                            local health = tonumber(string.match(amount.Text, "(%d+)"))
+                                            if not health or health <= 0 then 
+                                                isAttacking = false
+                                                break
+                                            end
+                                        end
+                                        task.wait()
+                                    end
+                                end
+                                
                             end
                         end
                     end)
