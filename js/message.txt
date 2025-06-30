@@ -734,7 +734,7 @@ end
                                 if game.PlaceId == 128336380114944 and playerposisi == playerPosition then
                                     local hudRoom = game:GetService("Players").LocalPlayer.PlayerGui.Hud.UpContanier
                                     if hudRoom:FindFirstChild("Room") then
-                                        local infoRoom = hudRoom:FindFirstChild("Room").Text:split("/") or {}
+                                        local infoRoom = hudRoom.Room.Text:split("/") or {}
                                         if #infoRoom > 1 then
                                             local infoRoomValue = tonumber(infoRoom[1]:match("[%d%.]+")) or 0
                                             if infoRoomValue ~= nil then
