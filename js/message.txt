@@ -740,7 +740,7 @@ end
                                                     if RoomDungeon then
                                                         playerinposition = playerinposition + 1
                                                         if RoomDungeons ~= RoomDungeon.Parent.Name and playerinposition > 10 then
-                                                            RoomDungeons2 = RoomDungeon.Parent.Name
+                                                            RoomDungeons2 = tonumber(infoRoom[2]:match("[%d%.]+")) or 0
                                                             RoomDungeons = RoomDungeon.Parent.Name
                                                             player:RequestStreamAroundAsync(RoomDungeon.Position)
                                                             Tween(RoomDungeon, 500)
@@ -847,12 +847,27 @@ end
                             end
                         DungeonSelect = Values
                     end)
-
+                    local stayPlayerInDungeon = 0
                     local toggleAutoJoinDungeon = Tabs.Dungeon:AddToggle("AutoJoinDungeon", { Title = "Auto Join Dungeon / Rejoin", Default = false })
                     toggleAutoJoinDungeon:OnChanged(function()
                         VariableIndex.AutoJoinDungeon = toggleAutoJoinDungeon.Value
                         if VariableIndex.AutoJoinDungeon then
                             while VariableIndex.AutoJoinDungeon and task.wait() do
+                                if stayPlayerInDungeon > 5 then
+                                    stayPlayerInDungeon = 0
+                                    local args = {
+                                        {
+                                            {
+                                                Event = "LeaveDungeon"
+                                            },
+                                            "\f"
+                                        }
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("BridgeNet2"):WaitForChild("dataRemoteEvent"):FireServer(unpack(args))
+                                elseif RoomDungeons == "Room_"..RoomDungeons2 then
+                                    stayPlayerInDungeon = stayPlayerInDungeon + 1
+                                    task.wait(1)
+                                end
                                 if DungeonSelect ~= nil then
                                     local defaultDungeon = workspace:FindFirstChild("__Main"):FindFirstChild("__Dungeon")
                                     if defaultDungeon:FindFirstChild("Dungeon") then
