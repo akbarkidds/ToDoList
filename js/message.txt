@@ -754,7 +754,7 @@ end
                                 else
                                     local closestEnemy = nil
                                     local closestDistance = math.huge
-                                    
+                                    playerposisi = playerPosition
                                     -- Find the closest valid enemy (any enemy with health > 0)
                                     for _, enemy in ipairs(workspace.__Main.__Enemies.Client:GetChildren()) do
                                         if enemy:IsA("Model") and enemy:FindFirstChild("HumanoidRootPart") and isValidEnemy(enemy) then
@@ -777,7 +777,6 @@ end
                                             if isAttacking == false then
                                                 Tween(closestEnemy.HumanoidRootPart, 500)
                                             end
-                                            playerposisi = playerPosition
                                             local healthBar = closestEnemy.HealthBar:FindFirstChild("Main")
                                             local amount = healthBar and healthBar:FindFirstChild("Bar") and healthBar.Bar:FindFirstChild("Amount")
                                             
