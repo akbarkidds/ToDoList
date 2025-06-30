@@ -744,6 +744,7 @@ end
                                                             RoomDungeons = RoomDungeon.Parent.Name
                                                             player:RequestStreamAroundAsync(RoomDungeon.Position)
                                                             Tween(RoomDungeon, 500)
+                                                            playerinposition = 0
                                                         end
                                                     end
                                                 end
