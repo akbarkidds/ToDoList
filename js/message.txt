@@ -775,8 +775,8 @@ end
                                         while closestEnemy:FindFirstChild("HealthBar") do
                                             if isAttacking == false then
                                                 Tween(closestEnemy.HumanoidRootPart, 500)
-                                                playerinposition = 0
                                             end
+                                            playerposisi = playerPosition
                                             local healthBar = closestEnemy.HealthBar:FindFirstChild("Main")
                                             local amount = healthBar and healthBar:FindFirstChild("Bar") and healthBar.Bar:FindFirstChild("Amount")
                                             
